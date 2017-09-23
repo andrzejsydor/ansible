@@ -4,7 +4,7 @@
     user_home_path: '/home/user/'
     sdkman_script_install_url: http://get.sdkman.io
     sdkman_folder: '/home/user/.sdkman'
-    gradle_version: 4.2
+    #gradle_version: 4.2
   tasks:
     - name: Check if sdkman is installed
       shell: test -d {{sdkman_folder}} && echo "yes" || echo "no"
@@ -19,13 +19,13 @@
       file: state=touch path={{user_home_path}}.bashrc
       sudo: no
 
-    - name: Add sdkman in .bashrc
-      lineinfile: dest={{user_home_path}}/.bashrc regexp="\/.sdkman/bin\/sdkman\-init\.sh" line='[[ -s "{{sdkman_folder}}/bin/sdkman-init.sh" && ! $(which sdkman-init.sh) ]] && source "{{sdkman_folder}}/bin/sdkman-init.sh"'
-      #shell: source "{{user_home_path}}.sdkman/bin/sdkman-init.sh"
-      #command: bash -ls "source {{user_home_path}}.sdkman/bin/sdkman-init.sh"
+    - name: Installing Java Gradle Maven Groovy Spring 
+    # This will read your bash profile file, which would setup sdkman-init.sh.
+      command: bash -lc 'source "{{sdkman_folder}}/bin/sdkman-init.sh" && sdk install java && sdk install maven && sdk install gradle'
       sudo: no
 
-    - name: Installing gradle
-    # This will read your bash profile file, which would setup sdkman-init.sh.
-      command: bash -lc "sdk install gradle {{gradle_version}}"
+    - name: Add sdkman JAVA_HOME ... in .bashrc
+      lineinfile: dest={{user_home_path}}/.bashrc regexp="\/.sdkman/bin\/sdkman\-init\.sh" line='[[ -s "{{sdkman_folder}}/bin/sdkman-init.sh" && ! $(which sdkman-init.sh) ]] && source "{{sdkman_folder}}/bin/sdkman-init.sh"'
       sudo: no
+
+
