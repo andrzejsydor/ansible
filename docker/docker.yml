@@ -1,0 +1,21 @@
+- hosts: localhost
+  tasks:
+  - name: Download get-docker.sh
+    command: bash -lc 'curl -fsSLv get.docker.com -o get-docker.sh'
+    sudo: no
+
+  - name: Run get-docker.sh
+    command: bash -lc 'sudo sh get-docker.sh'
+    sudo: yes
+
+  - name: Add $USER to docker group
+    command: bash -lc 'sudo usermod -aG docker $USER'
+    sudo: yes
+
+  - name: Refresh user groups
+    command: bash -lc 'sudo su -l user'
+    sudo: yes
+
+  - name: Run docker hello-world
+    command: bash -lc 'docker run hello-world'
+    sudo: no
